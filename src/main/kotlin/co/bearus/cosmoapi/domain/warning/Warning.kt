@@ -8,6 +8,12 @@ class Warning private constructor(val amount: Int) {
             ?: throw IllegalArgumentException("Warning count must be greater than 0")
     }
 
+    fun add(amount: Int): Warning {
+        return of(
+            this.amount + amount
+        )
+    }
+
     override fun toString(): String {
         return amount.toString()
     }

@@ -62,9 +62,21 @@ class UserRepositoryImpl(
     }
 
     override fun save(user: User) {
-        warningDataDao.updateUser(WarningData(user.uuid, user.warning.amount, user.username))
-        cashDataDao.updateCacheData(CashData(user.uuid, user.cash.value, user.cash.cultureLandFailureCount))
-        user.cash.chargeLog.getAddedElements()
-            .forEach { it -> cashDataDao.insertCashLog(CashLogData(user.uuid, it.type, it.value, it.chargedAt)) }
+        try {
+            warningDataDao.updateUser(WarningData(user.uuid, user.warning.amount, user.username))
+            cashDataDao.updateCacheData(CashData(user.uuid, user.cash.value, user.cash.cultureLandFailureCount))
+            user.cash.chargeLog.forEach { it ->
+                cashDataDao.insertCashLog(
+                    CashLogData(
+                        user.uuid,
+                        it.type,
+                        it.value,
+                        it.chargedAt
+                    )
+                )
+            }
+        } catch (exception: Exception) {
+
+        }
     }
 }

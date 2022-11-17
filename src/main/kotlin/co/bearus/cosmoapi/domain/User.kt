@@ -1,7 +1,6 @@
 package co.bearus.cosmoapi.domain
 
 import co.bearus.cosmoapi.domain.cash.Cash
-import co.bearus.cosmoapi.domain.cash.ChargeLog
 import co.bearus.cosmoapi.domain.cash.ChargeType
 import co.bearus.cosmoapi.domain.warning.Warning
 import java.util.*
@@ -13,23 +12,15 @@ class User(
     var warning: Warning
 ) {
     fun addCash(amount: Int, type: ChargeType) {
-        this.cash = Cash.of(
-            amount + this.cash.value,
-            this.cash.cultureLandFailureCount,
-            this.cash.chargeLog + ChargeLog.of(type, amount)
-        )
+        this.cash = this.cash.addCash(amount, type)
     }
 
     fun resetCultureLandFailureCount() {
-        this.cash = Cash.of(
-            this.cash.value,
-            0,
-            this.cash.chargeLog
-        )
+        this.cash = this.cash.resetCultureLandFailureCount()
     }
 
     fun addWarning(amount: Int) {
-        this.warning = Warning.of(this.warning.amount + amount)
+        this.warning = this.warning.add(amount)
     }
 
     override fun toString(): String {

@@ -1,1 +1,1 @@
-cosmo.jdbc.url="jdbc:mysql://"
+cosmo.jdbc.url=jdbc:mysql://
